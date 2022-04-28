@@ -27,7 +27,9 @@ def distance():
         conn = get_connection()
         from_city = posted_cities['from_city']
         to_city = posted_cities['to_city']
-        shortest_distance = get_shortest_distance(conn, from_city=from_city, to_city=to_city)
+        shortest_distance = get_shortest_distance(conn,
+                                                  from_city=from_city,
+                                                  to_city=to_city)
 
         return jsonify(distance=shortest_distance)
 
