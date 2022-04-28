@@ -37,6 +37,5 @@ def get_shortest_distance(conn, table_name=TABLE_NAME, from_city=1, to_city=2):
 if __name__ == '__main__':
 
     shortest_distance_table = get_shortest_distance_table()
-    # БД д.б. на верхнем уровне каталогов проекта
     conn = get_connection(TABLE_NAME)
     shortest_distance_table.to_sql(TABLE_NAME, conn, if_exists='replace', index=False)
