@@ -4,6 +4,8 @@ from flask import (
     request,
 )
 
+from .validator import validate
+
 from .graph import get_distance
 
 
@@ -16,6 +18,8 @@ def distance():
         posted_cities = request.get_json()
         from_city = posted_cities['from_city']
         to_city = posted_cities['to_city']
+
+        validate(from_city, to_city)
 
         distance = get_distance(from_city, to_city)
 

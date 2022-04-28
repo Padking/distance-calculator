@@ -4,8 +4,8 @@ import requests
 
 
 cities = {
-    'from_city': 1,
-    'to_city': 2,
+    'from_city': 5,
+    'to_city': 1,
 }
 cities_ = json.dumps(cities)
 headers = {
