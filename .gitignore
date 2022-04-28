@@ -132,5 +132,5 @@ __pypackages__/
 
 # Personal
 for_project/
-data/
+# data/
 data_research.py

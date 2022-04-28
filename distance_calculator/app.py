@@ -5,6 +5,8 @@ from flask import (
     render_template,
 )
 
+from .graph import get_distance
+
 
 app = Flask(__name__)
 
@@ -12,10 +14,10 @@ app = Flask(__name__)
 @app.route('/city', methods=('GET', 'POST'))
 def city():
     if request.method == 'POST':
-        from_city = request.form['from_city']
-        to_city = request.form['to_city']
+        from_city = int(request.form['from_city'])
+        to_city = int(request.form['to_city'])
 
-        distance = from_city + to_city
+        distance = get_distance(from_city, to_city)
         location = f'http://127.0.0.1:5000/get_distance/{distance}'
 
         return redirect(location)
@@ -26,7 +28,11 @@ def city():
 @app.route('/get_distance/<distance>')
 def distance(distance):
 
-    ctx = {'res': distance}
+    ctx = {
+        'res': distance,
+        'dimension': 'км.'
+    }
+
     return render_template('distance.html', **ctx)
 
 
