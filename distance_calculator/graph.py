@@ -4,7 +4,7 @@ import pandas as pd
 from queue import PriorityQueue
 
 
-FILEPATH = '../data/matrix_distance'  # FIXME
+FILEPATH = '../data/matrix_distance'
 
 
 class Graph:

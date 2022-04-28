@@ -74,13 +74,14 @@ pip install -r requirements.txt
 
 - наполнить БД информацией о кратчайших расстояниях между локациями:
 ```sh
-python ./distance_calculator/db.py
+cd distance_calculator/
+python db.py
 ```
 - запустить сервис,
 - в новом окне терминала выполнить запрос от клиента (К),
 - убедиться в наличии ответа.
 ```bash
-python ./distance_calculator/app.py
+python app.py
 python client.py
 ```
 
