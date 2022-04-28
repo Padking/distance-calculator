@@ -70,7 +70,7 @@ def get_distance(from_city=1, to_city=2, distance_filepath=FILEPATH):
     shortest_distances = g.get_dist_path_mat()
     distance = shortest_distances.iloc[from_city][f'dist_with_city_{to_city}']
 
-    return distance
+    return float(distance)
 
 
 if __name__ == '__main__':

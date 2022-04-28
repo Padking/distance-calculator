@@ -1,8 +1,7 @@
 from flask import (
     Flask,
-    redirect,
+    jsonify,
     request,
-    render_template,
 )
 
 from .graph import get_distance
@@ -11,29 +10,16 @@ from .graph import get_distance
 app = Flask(__name__)
 
 
-@app.route('/city', methods=('GET', 'POST'))
-def city():
+@app.route('/get_distance', methods=('POST', ))
+def distance():
     if request.method == 'POST':
-        from_city = int(request.form['from_city'])
-        to_city = int(request.form['to_city'])
+        posted_cities = request.get_json()
+        from_city = posted_cities['from_city']
+        to_city = posted_cities['to_city']
 
         distance = get_distance(from_city, to_city)
-        location = f'http://127.0.0.1:5000/get_distance/{distance}'
 
-        return redirect(location)
-
-    return render_template('form_city.html')
-
-
-@app.route('/get_distance/<distance>')
-def distance(distance):
-
-    ctx = {
-        'res': distance,
-        'dimension': 'км.'
-    }
-
-    return render_template('distance.html', **ctx)
+        return jsonify(distance=distance)
 
 
 if __name__ == '__main__':
