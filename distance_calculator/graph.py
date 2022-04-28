@@ -40,7 +40,8 @@ class Graph:
 
     def get_dist_path_mat(self) -> pd.DataFrame:
         num_of_vertices = self.v
-        cols = ['city_id'] + [f'dist_with_city_{i}' for i in range(num_of_vertices)]  # FIXME
+        # Задание названий столбцов датафрейма
+        cols = ['city_id'] + [f'dist_with_city_{i}' for i in range(num_of_vertices)]
         dist_df = pd.DataFrame(columns=cols)
 
         for i in range(num_of_vertices):
@@ -48,7 +49,7 @@ class Graph:
             row = [i] + list(distances.values())
             dist_df.loc[len(dist_df), dist_df.columns] = row
 
-        return dist_df
+        return dist_df.astype('int')
 
 
 def create_graph_model(mat: np.array, graph: Graph, vertices=50):
@@ -59,7 +60,13 @@ def create_graph_model(mat: np.array, graph: Graph, vertices=50):
                 graph.add_edge(i, j, dist)
 
 
-def get_distance(from_city=1, to_city=2, distance_filepath=FILEPATH):
+def get_shortest_distance(distance_table: pd.DataFrame, from_city=1, to_city=2):
+    distance = distance_table.iloc[from_city][f'dist_with_city_{to_city}']
+
+    return float(distance)
+
+
+def get_shortest_distance_table(distance_filepath=FILEPATH) -> pd.DataFrame:
     file_with_graph = open(distance_filepath, 'rb')
     mat = np.load(file_with_graph)
 
@@ -67,11 +74,12 @@ def get_distance(from_city=1, to_city=2, distance_filepath=FILEPATH):
     g = Graph(vertices)
 
     create_graph_model(mat, g)
-    shortest_distances = g.get_dist_path_mat()
-    distance = shortest_distances.iloc[from_city][f'dist_with_city_{to_city}']
+    shortest_distance_table = g.get_dist_path_mat()
 
-    return float(distance)
+    return shortest_distance_table
 
 
 if __name__ == '__main__':
-    print(get_distance())
+    shortest_distance_table = get_shortest_distance_table()
+    shortest_distance = get_shortest_distance(shortest_distance_table)
+    print(f'Кратчайший путь между городами "1" и "2": {shortest_distance}')
